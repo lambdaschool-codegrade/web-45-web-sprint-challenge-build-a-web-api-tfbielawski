@@ -1,23 +1,11 @@
-// // Write your "projects" router here!
-// const express = require("express");
-// //import middleware here
-// const Projects = require("./projects-model");
-// const router = express.Router();
-//
-// //Array of projects
-// router.get("/", (req, res) => {
-//     Projects.get()
-//         .then(projects=>{ res.status(200).json(projects); })
-//         .catch();
-// });
 
 const express = require('express');
-const {validateId} = require("projects-middleware");
+const {validateId, validateBody} = require("./projects-middleware");
 const Projects = require('./projects-model')
 
 const router = express.Router();
-//Get projects1
-router.get('/', (req, res, next) => {
+//Get projects
+router.get('/', async (req, res, next) => {
     Projects.get()
         .then(projects =>{
             res.status(200).json(projects)
@@ -31,19 +19,29 @@ router.get("/:id", validateId,(req,res) => {
 })
 
 //Returns the newly created project as the body
-router.post("/", (req,res) => {
+router.post("/",  validateBody, async(req, res, next) => {
     console.log("CREATED PROJECT");
+    try{
+        const newProject = await Projects.insert({
+            name: req.name,
+            description: req.description,
+            completed: req.completed
+        })
+    }
+    catch(error){next(error)}
 })
 
-router.put("/:id", (req,res) => {
+router.put("/:id", validateId, validateBody,(req, res, next ) => {
     console.log("UPDATED PROJECT");
+
+
 })
 
-router.delete("/:id", (req,res) => {
+router.delete("/:id", validateId, (req,res) => {
     console.log("DELETED PROJECT");
 })
 
-router.get("/:id/actions", (req,res) => {
+router.get("/:id/actions",validateId, (req,res) => {
     console.log("DELETED PROJECT");
 })
 
