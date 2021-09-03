@@ -39,17 +39,31 @@ router.put("/:id", validateId, validateBody,(req, res, next ) => {
         completed: completed
     })
         .then(() => {return Projects.get(req.params.id)})
-
-
+        .then(project => {res.json(project)})
+        .catch(next)
 
 })
 
-router.delete("/:id", validateId, (req,res) => {
-    console.log("DELETED PROJECT");
+router.delete("/:id", validateId, async (req, res, next) => {
+    const id = req.params.id;
+    try{
+        const result = await Projects.remove(id)
+        res.json(result)
+    }
+    catch(error){next(error)}
 })
 
 router.get("/:id/actions",validateId, (req,res) => {
-    console.log("DELETED PROJECT");
+    // Projects.getProjectActions(req.params.id)
+    //     .then(action => {
+    //
+    //     })
 })
 
+router.use((err, req, res) => {
+    res.status(err.status || 400).json({
+        customMessage: "something tragic",
+        err: err.message
+    })
+})
 module.exports = router;

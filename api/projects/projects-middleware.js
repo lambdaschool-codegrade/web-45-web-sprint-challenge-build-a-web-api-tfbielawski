@@ -21,7 +21,10 @@ async function validateBody(req, res, next) {
         res.status(400).json({ message:" missing required name field"})
     }
     else if (!description || !description.trim()) {
-        res.status(400).json({ message:"missing required description field"})}
+        res.status(400).json({ message:"missing required description field"})
+    }
+    // else if (!completed) {
+    //     res.status(400).json({ message:"missing required description field"})}
     else {
         req.name = name.trim()
         req.description = description.trim()
