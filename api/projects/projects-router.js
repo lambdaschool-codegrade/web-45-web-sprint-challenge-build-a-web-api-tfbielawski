@@ -1,15 +1,29 @@
-// Write your "projects" router here!
-const express = require("express");
-//import middleware here
-const Projects = require("./projects-model");
-const router = express.Router();
+// // Write your "projects" router here!
+// const express = require("express");
+// //import middleware here
+// const Projects = require("./projects-model");
+// const router = express.Router();
+//
+// //Array of projects
+// router.get("/", (req, res) => {
+//     Projects.get()
+//         .then(projects=>{ res.status(200).json(projects); })
+//         .catch();
+// });
 
-//Array of projects
-router.get("/", (req, res) => {
+const express = require('express');
+
+const Projects = require('./projects-model')
+
+const router = express.Router();
+//Get projects1
+router.get('/', (req, res, next) => {
     Projects.get()
-        .then(projects=>{ res.status(200).json(projects); })
-        .catch();
-});
+        .then(projects =>{
+            res.status(200).json(projects)
+        })
+        .catch(next)
+})
 
 //Project with given id
 router.get("/:id", (req,res) => {

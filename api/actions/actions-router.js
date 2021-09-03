@@ -28,5 +28,12 @@ router.delete("/:id", (req,res) => {
     console.log("DELETED ACTION");
 })
 
+//Next
+router.use((err, req, res) => {
+    res.status(err.status || 500).json({
+        customMessage: "something tragic",
+        err: err.message
+    })
+})
 
 module.exports = router;
