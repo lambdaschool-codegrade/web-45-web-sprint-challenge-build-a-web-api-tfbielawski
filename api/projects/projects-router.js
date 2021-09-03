@@ -20,19 +20,26 @@ router.get("/:id", validateId,(req,res) => {
 
 //Returns the newly created project as the body
 router.post("/",  validateBody, async(req, res, next) => {
-    console.log("CREATED PROJECT");
     try{
         const newProject = await Projects.insert({
             name: req.name,
             description: req.description,
             completed: req.completed
         })
+        res.status(201).json(newProject)
     }
     catch(error){next(error)}
 })
 
 router.put("/:id", validateId, validateBody,(req, res, next ) => {
-    console.log("UPDATED PROJECT");
+    const {name, description, completed} = req
+    Projects.update(req.params.id, {
+        name: name,
+        description: description,
+        completed: completed
+    })
+        .then(() => {return Projects.get(req.params.id)})
+
 
 
 })

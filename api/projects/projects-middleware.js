@@ -1,4 +1,4 @@
-const Projects = require("projects-model");
+const Projects = require("./projects-model");
 
 async function validateId ( req, res, next) {
     try{
