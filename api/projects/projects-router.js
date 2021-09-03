@@ -53,11 +53,10 @@ router.delete("/:id", validateId, async (req, res, next) => {
     catch(error){next(error)}
 })
 
-router.get("/:id/actions",validateId, (req,res) => {
-    // Projects.getProjectActions(req.params.id)
-    //     .then(action => {
-    //
-    //     })
+router.get("/:id/actions",validateId, (req, res, next) => {
+    Projects.getProjectActions(req.params.id)
+        .then(action => {res.json(action)})
+        .catch(next)
 })
 
 router.use((err, req, res) => {
