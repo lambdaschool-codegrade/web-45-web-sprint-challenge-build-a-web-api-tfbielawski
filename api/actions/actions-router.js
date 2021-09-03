@@ -53,12 +53,12 @@ router.delete("/:id", validateActionId, async (req, res, next ) => {
 })
 
 //Next
-router.use((err, req, res, next) => {
-    res.status(err.status || 500).json({
-        customMessage: "something tragic",
-        err: err.message
-    })
-    next();
-})
+// router.use((err, req, res, next) => {
+//     res.status(500).json({
+//         message: "Error handling function message",
+//         error: err.message
+//     })
+//     next();
+// })
 
 module.exports = router;
