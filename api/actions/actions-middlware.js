@@ -1,7 +1,7 @@
 // add middlewares here related to actions
 const Actions = require("./actions-model");
 
-async function validateId ( req, res, next) {
+async function validateActionId ( req, res, next) {
     try{
         const actions = await Actions.get(req.params.id);
         if(!actions){ next({status: 404, message: "no such user" }) }
@@ -16,18 +16,18 @@ async function validateId ( req, res, next) {
     }
 }
 
-async function validateBody(req, res, next) {
+async function validateActionBody(req, res, next) {
     const { project_id, description, completed, notes } = req.body
-    if (!project_id|| !project_id.trim()) {
-        res.status(400).json({ message:" missing required name field"})
+    if (!project_id|| !project_id) {
+        res.status(400).json({ message: "missing project id"})
     }
     else if (!description || !description.trim()) {
-        res.status(400).json({ message:"missing required description field"})
+        res.status(400).json({ message:"missing description "})
     }
-     else if (!notes || !notes.trim) {
-        res.status(400).json({ message:"missing required description field"})}
+     else if (!notes || !notes.trim()) {
+        res.status(400).json({ message:"missing notes"})}
     else {
-        req.project_id = project_id.trim();
+        req.project_id = project_id;
         req.description = description.trim();
         req.completed = completed;
         req.notes = notes.trim();
@@ -35,4 +35,4 @@ async function validateBody(req, res, next) {
     }
 }
 
-module.exports= {validateId, validateBody};
+module.exports= {validateActionId, validateActionBody};
